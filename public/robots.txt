@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://innercreate.com/sitemap.xml
