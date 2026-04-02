@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <header className="relative min-h-screen flex items-center justify-center bg-brand-dark overflow-hidden">
       {/* Background video — muted, autoplay, looped */}
-      <HeroVideo videoId="VFJ1W3GrKBM" />
+      <HeroVideo videoId="g1EqOBpu2mM" />
 
       <div className="relative text-center px-6">
         <p className="hero-descriptor text-xs font-sans tracking-[0.3em] uppercase text-brand-amber mb-6">
