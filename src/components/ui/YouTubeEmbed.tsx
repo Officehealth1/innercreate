@@ -15,7 +15,7 @@ export default function YouTubeEmbed({ videoId, title }: YouTubeEmbedProps) {
     return (
       <div className="relative w-full aspect-video rounded-md overflow-hidden">
         <iframe
-          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playlist=${videoId}&loop=1`}
           width="100%"
           height="100%"
           frameBorder="0"

@@ -1,19 +1,14 @@
 import { siteContent } from "@/content/site";
 import Button from "@/components/ui/Button";
+import HeroVideo from "@/components/ui/HeroVideo";
 
 export default function Hero() {
   const { hero } = siteContent;
 
   return (
-    <header className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-brand-dark to-brand-dark-deep overflow-hidden">
-      {/* Ambient background glow */}
-      <div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.03]"
-        style={{
-          background: "radial-gradient(circle, #c4956a 0%, transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
+    <header className="relative min-h-screen flex items-center justify-center bg-brand-dark overflow-hidden">
+      {/* Background video — muted, autoplay, looped */}
+      <HeroVideo videoId="VFJ1W3GrKBM" />
 
       <div className="relative text-center px-6">
         <p className="hero-descriptor text-xs font-sans tracking-[0.3em] uppercase text-brand-amber mb-6">
