@@ -71,6 +71,84 @@ body {
   overflow: hidden;
 }
 
+/* ── Floating particles: warm dust in studio light ── */
+@keyframes particle-drift {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(80vh) translateX(5px) scale(1);
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(-10px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.particle {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196, 149, 106, 0.8), rgba(196, 149, 106, 0.2));
+  animation: particle-drift linear infinite;
+  pointer-events: none;
+}
+
+/* ── Sound wave equalizer bars ── */
+@keyframes sound-breathe {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+.sound-bar {
+  transform-origin: bottom;
+  animation: sound-breathe ease-in-out infinite;
+}
+
+/* ── Text reveal: words sliding up like lyrics being sung ── */
+@keyframes text-reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%) rotateX(20deg);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+    filter: blur(0);
+  }
+}
+
+.text-reveal-line {
+  overflow: hidden;
+  perspective: 600px;
+}
+
+.text-reveal-line > span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.text-reveal-line.visible > span {
+  animation: text-reveal-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* ── Ambient glow that follows scroll depth ── */
+@keyframes ambient-breathe {
+  0%, 100% { opacity: 0.03; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.06; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.ambient-glow {
+  animation: ambient-breathe 6s ease-in-out infinite;
+}
+
 /* Hero entrance animations */
 @keyframes hero-fade-up {
   from {
@@ -219,5 +297,25 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .particle {
+    animation: none;
+    display: none;
+  }
+
+  .sound-bar {
+    animation: none;
+    transform: scaleY(0.5);
+  }
+
+  .text-reveal-line > span {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .ambient-glow {
+    animation: none;
   }
 }

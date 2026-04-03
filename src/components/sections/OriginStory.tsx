@@ -3,6 +3,7 @@ import { siteContent } from "@/content/site";
 import SectionLabel from "@/components/ui/SectionLabel";
 import SectionHeading from "@/components/ui/SectionHeading";
 import FadeIn from "@/components/ui/FadeIn";
+import Parallax from "@/components/ui/Parallax";
 
 export default function OriginStory() {
   const { origin } = siteContent;
@@ -32,19 +33,21 @@ export default function OriginStory() {
             </div>
           </div>
           <FadeIn delay={0.2} className="flex-shrink-0 order-1 md:order-2 w-full md:w-72 lg:w-80">
-            <div className="relative aspect-[3/4] rounded-sm overflow-hidden bg-brand-dark-deep group">
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-dark-deep to-brand-dark flex items-center justify-center">
-                <Image
-                  src={origin.image.src}
-                  alt={origin.image.alt}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, 320px"
-                />
+            <Parallax speed={-0.15}>
+              <div className="relative aspect-[3/4] rounded-sm overflow-hidden bg-brand-dark-deep group" style={{ perspective: "600px" }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-dark-deep to-brand-dark flex items-center justify-center transition-transform duration-700 group-hover:scale-105 group-hover:[transform:scale(1.05)_rotateY(2deg)]">
+                  <Image
+                    src={origin.image.src}
+                    alt={origin.image.alt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 320px"
+                  />
+                </div>
+                {/* Warm vignette overlay on the photo */}
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 to-transparent pointer-events-none" />
               </div>
-              {/* Warm vignette overlay on the photo */}
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 to-transparent pointer-events-none" />
-            </div>
+            </Parallax>
           </FadeIn>
         </div>
       </div>

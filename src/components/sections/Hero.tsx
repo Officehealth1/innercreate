@@ -1,6 +1,7 @@
 import { siteContent } from "@/content/site";
 import Button from "@/components/ui/Button";
 import HeroVideo from "@/components/ui/HeroVideo";
+import FloatingParticles from "@/components/ui/FloatingParticles";
 
 export default function Hero() {
   const { hero } = siteContent;
@@ -9,6 +10,18 @@ export default function Hero() {
     <header className="relative min-h-screen flex items-center justify-center bg-brand-dark overflow-hidden">
       {/* Background video — muted, autoplay, looped */}
       <HeroVideo videoId="g1EqOBpu2mM" />
+
+      {/* Warm floating particles — dust in studio light */}
+      <FloatingParticles count={25} />
+
+      {/* Ambient glow — breathing warmth */}
+      <div
+        className="ambient-glow absolute top-1/3 left-1/2 w-[700px] h-[700px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(196, 149, 106, 0.08) 0%, transparent 70%)",
+        }}
+        aria-hidden="true"
+      />
 
       <div className="relative text-center px-6">
         <p className="hero-descriptor text-xs font-sans tracking-[0.3em] uppercase text-brand-amber mb-6">

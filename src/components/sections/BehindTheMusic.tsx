@@ -4,6 +4,7 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import SectionHeading from "@/components/ui/SectionHeading";
 import FadeIn from "@/components/ui/FadeIn";
 import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
+import TiltCard from "@/components/ui/TiltCard";
 
 export default function BehindTheMusic() {
   const { behindTheMusic } = siteContent;
@@ -26,8 +27,8 @@ export default function BehindTheMusic() {
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
           {videos.map((video, i) => (
-            <FadeIn key={video.id} delay={i * 0.15}>
-              <div className="group transition-transform duration-500 hover:-translate-y-1">
+            <FadeIn key={video.id} delay={i * 0.12}>
+              <TiltCard className="group">
                 <YouTubeEmbed videoId={video.id} title={video.title} />
                 <h3 className="mt-3 font-serif text-lg text-brand-cream group-hover:text-brand-amber transition-colors duration-300">
                   {video.title}
@@ -35,7 +36,7 @@ export default function BehindTheMusic() {
                 <p className="mt-1 text-sm text-brand-gold leading-relaxed">
                   {video.context}
                 </p>
-              </div>
+              </TiltCard>
             </FadeIn>
           ))}
         </div>
