@@ -1,7 +1,7 @@
 export const siteContent = {
   hero: {
     descriptor: "Singer \u00b7 Songwriter \u00b7 Storyteller",
-    name: "Florence Dhaemer",
+    name: "Florence D'Haemer",
     quote:
       "\u201cMusic is the language I use when words aren\u2019t enough.\u201d",
     cta: { label: "Listen Now", href: "#now-playing" },
@@ -15,7 +15,7 @@ export const siteContent = {
 Her first songs weren\u2019t written to be heard. They were written because they had to exist. Quiet melodies hummed into phone recordings at 2 AM. Lyrics scribbled on receipts. The kind of music that comes from necessity, not ambition.`,
     image: {
       src: "/images/florence-origin.jpg",
-      alt: "Florence Dhaemer in the studio, bathed in warm light",
+      alt: "Florence D'Haemer in the studio, bathed in warm light",
     },
   },
 

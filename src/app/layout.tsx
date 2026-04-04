@@ -16,38 +16,118 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Florence Dhaemer | Singer-Songwriter | innercreate",
+  title: "Florence D'Haemer — French Singer-Songwriter | Original Music & Stories",
   description:
-    "Original music and stories by Florence Dhaemer. Listen to songs born from real moments.",
+    "Discover Florence D'Haemer, a French singer-songwriter crafting intimate acoustic songs in French and English. Listen to Amours, Sur Le Port, Océan and more. Watch live sessions and behind-the-scenes stories.",
+  keywords: [
+    "Florence D'Haemer",
+    "Florence Dhaemer",
+    "French singer-songwriter",
+    "chanteuse française",
+    "original music",
+    "acoustic songs",
+    "Amours",
+    "Sur Le Port",
+    "Réfugiés",
+    "Océan",
+    "innercreate",
+    "live sessions",
+    "indie folk",
+  ],
   metadataBase: new URL("https://innercreate.com"),
+  alternates: {
+    canonical: "https://innercreate.com",
+  },
   openGraph: {
-    title: "Florence Dhaemer | Singer-Songwriter",
+    title: "Florence D'Haemer — French Singer-Songwriter",
     description:
-      "Original music and stories by Florence Dhaemer. Listen to songs born from real moments.",
+      "Intimate acoustic songs in French and English. Listen to original music, watch live sessions, and discover the stories behind every song.",
     url: "https://innercreate.com",
     siteName: "innercreate",
-    images: [{ url: "/images/og-image.jpg", width: 1200, height: 630 }],
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Florence Dhaemer | Singer-Songwriter",
+    title: "Florence D'Haemer — French Singer-Songwriter",
     description:
-      "Original music and stories by Florence Dhaemer. Listen to songs born from real moments.",
-    images: ["/images/og-image.jpg"],
+      "Intimate acoustic songs in French and English. Listen now on innercreate.com",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "MusicGroup",
-  name: "Florence Dhaemer",
-  url: "https://innercreate.com",
-  genre: "Singer-Songwriter",
-  sameAs: [
-    "https://www.youtube.com/@florencedhaemer",
-    "https://soundcloud.com/florencedhaemer",
+  "@graph": [
+    {
+      "@type": "MusicGroup",
+      "@id": "https://innercreate.com/#artist",
+      name: "Florence D'Haemer",
+      url: "https://innercreate.com",
+      description:
+        "French singer-songwriter crafting intimate acoustic songs in French and English. Music born from real moments — quiet, honest, and deeply personal.",
+      genre: ["Singer-Songwriter", "Indie Folk", "Chanson Française"],
+      sameAs: [
+        "https://www.youtube.com/@florencedhaemer",
+        "https://soundcloud.com/florencedhaemer",
+        "https://instagram.com/florencedhaemer",
+      ],
+      track: [
+        {
+          "@type": "MusicRecording",
+          name: "Amours",
+          url: "https://soundcloud.com/florencedhaemer/amours",
+          duration: "PT3M42S",
+          inLanguage: "fr",
+        },
+        {
+          "@type": "MusicRecording",
+          name: "Sur Le Port",
+          url: "https://soundcloud.com/florencedhaemer/sur-le-port",
+          duration: "PT4M15S",
+          inLanguage: "fr",
+        },
+        {
+          "@type": "MusicRecording",
+          name: "Réfugiés",
+          url: "https://soundcloud.com/florencedhaemer/refugies",
+          duration: "PT3M58S",
+          inLanguage: "fr",
+        },
+        {
+          "@type": "MusicRecording",
+          name: "Océan",
+          url: "https://soundcloud.com/florencedhaemer/ocean",
+          duration: "PT4M33S",
+          inLanguage: "fr",
+        },
+        {
+          "@type": "MusicRecording",
+          name: "L'eau Vive",
+          url: "https://soundcloud.com/florencedhaemer/leau-vive",
+          duration: "PT2M51S",
+          inLanguage: "fr",
+        },
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://innercreate.com/#website",
+      url: "https://innercreate.com",
+      name: "innercreate",
+      description: "The official home of Florence D'Haemer's music and stories",
+      publisher: { "@id": "https://innercreate.com/#artist" },
+    },
   ],
 };
 
