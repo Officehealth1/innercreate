@@ -1,13 +1,14 @@
 import { siteContent } from "@/content/site";
-import { videos } from "@/content/videos";
+import { getLatestVideos } from "@/lib/youtube";
 import SectionLabel from "@/components/ui/SectionLabel";
 import SectionHeading from "@/components/ui/SectionHeading";
 import FadeIn from "@/components/ui/FadeIn";
 import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
 import TiltCard from "@/components/ui/TiltCard";
 
-export default function BehindTheMusic() {
+export default async function BehindTheMusic() {
   const { behindTheMusic } = siteContent;
+  const videos = await getLatestVideos(7);
 
   return (
     <section
