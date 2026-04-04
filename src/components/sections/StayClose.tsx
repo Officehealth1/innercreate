@@ -45,7 +45,7 @@ export default function StayClose() {
 
           <div className="mt-16 pt-8 border-t border-white/5">
             <p className="text-xs text-brand-gold/40">
-              &copy; {new Date().getFullYear()} Florence Dhaemer. All rights reserved.
+              &copy; {new Date().getFullYear()} Florence D&apos;Haemer. All rights reserved.
             </p>
           </div>
         </FadeIn>
