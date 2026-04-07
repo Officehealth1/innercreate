@@ -5,6 +5,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import FadeIn from "@/components/ui/FadeIn";
 import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
 import TiltCard from "@/components/ui/TiltCard";
+import CyclingText from "@/components/ui/CyclingText";
 
 export default async function BehindTheMusic() {
   const { behindTheMusic } = siteContent;
@@ -34,9 +35,9 @@ export default async function BehindTheMusic() {
                 <h3 className="mt-3 font-serif text-lg text-brand-cream group-hover:text-brand-amber transition-colors duration-300">
                   {video.title}
                 </h3>
-                <p className="mt-2 text-sm text-brand-gold leading-relaxed whitespace-pre-line italic font-serif">
-                  {video.context}
-                </p>
+                <div className="mt-2 h-5">
+                  <CyclingText text={video.context} className="text-sm" />
+                </div>
               </TiltCard>
             </FadeIn>
           ))}
