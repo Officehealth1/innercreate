@@ -34,7 +34,7 @@ export default async function BehindTheMusic() {
                 <h3 className="mt-3 font-serif text-lg text-brand-cream group-hover:text-brand-amber transition-colors duration-300">
                   {video.title}
                 </h3>
-                <p className="mt-1 text-sm text-brand-gold leading-relaxed whitespace-pre-line">
+                <p className="mt-2 text-sm text-brand-gold leading-relaxed whitespace-pre-line italic font-serif">
                   {video.context}
                 </p>
               </TiltCard>
