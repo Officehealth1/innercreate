@@ -49,7 +49,7 @@ export default function SongRow({ song, isOpen, onToggle }: SongRowProps) {
       >
         <div>
           <div className="px-4 md:px-5 pb-5 pt-1">
-            <p className="text-brand-gold leading-relaxed text-sm md:text-base mb-4">
+            <p className="text-brand-gold leading-relaxed text-sm md:text-base mb-4 whitespace-pre-line">
               {song.story}
             </p>
             <SoundCloudEmbed trackUrl={song.soundcloudUrl} title={song.title} />

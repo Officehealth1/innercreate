@@ -1,18 +1,16 @@
 export const siteContent = {
   hero: {
-    descriptor: "Singer \u00b7 Songwriter \u00b7 Storyteller",
+    descriptor: "Singer-Songwriter",
     name: "Florence D'Haemer",
     quote:
-      "\u201cMusic is the language I use when words aren\u2019t enough.\u201d",
+      "\u201cMusic is the language we use to bring light into the world.\u201d",
     cta: { label: "Listen Now", href: "#now-playing" },
   },
 
   origin: {
     label: "Chapter One",
     heading: "Where It All Started",
-    body: `It began with a borrowed guitar and a notebook full of feelings that didn\u2019t have names yet. Florence grew up between languages and countries, always searching for something that felt like home. Music became that place\u2014the one room where everything made sense.
-
-Her first songs weren\u2019t written to be heard. They were written because they had to exist. Quiet melodies hummed into phone recordings at 2 AM. Lyrics scribbled on receipts. The kind of music that comes from necessity, not ambition.`,
+    body: `Since a young age, I\u2019ve played the piano and for a long time was drawn to writing and singing my own music. It\u2019s an expression of life and I allow it to flow through me and into the world.`,
     image: {
       src: "/images/florence-origin.jpg",
       alt: "Florence D'Haemer in the studio, bathed in warm light",

@@ -54,7 +54,7 @@ export default function Image() {
             display: "flex",
           }}
         >
-          Singer · Songwriter · Storyteller
+          Singer-Songwriter
         </div>
         {/* Decorative line */}
         <div

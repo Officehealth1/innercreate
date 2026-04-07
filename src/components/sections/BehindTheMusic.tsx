@@ -8,7 +8,7 @@ import TiltCard from "@/components/ui/TiltCard";
 
 export default async function BehindTheMusic() {
   const { behindTheMusic } = siteContent;
-  const videos = await getLatestVideos(7);
+  const videos = await getLatestVideos(2);
 
   return (
     <section
@@ -34,7 +34,7 @@ export default async function BehindTheMusic() {
                 <h3 className="mt-3 font-serif text-lg text-brand-cream group-hover:text-brand-amber transition-colors duration-300">
                   {video.title}
                 </h3>
-                <p className="mt-1 text-sm text-brand-gold leading-relaxed">
+                <p className="mt-1 text-sm text-brand-gold leading-relaxed whitespace-pre-line">
                   {video.context}
                 </p>
               </TiltCard>

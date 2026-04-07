@@ -27,7 +27,7 @@ export default function NowPlaying() {
           >
             {featured.title}
           </h2>
-          <p className="mt-4 text-brand-gold leading-relaxed italic font-serif text-base md:text-lg max-w-lg mx-auto">
+          <p className="mt-4 text-brand-gold leading-relaxed italic font-serif text-base md:text-lg max-w-lg mx-auto whitespace-pre-line">
             {featured.story}
           </p>
           <div className="mt-8 glow-container">
