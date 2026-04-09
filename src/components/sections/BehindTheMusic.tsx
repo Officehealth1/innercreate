@@ -16,7 +16,7 @@ export default async function BehindTheMusic() {
     >
       <div className="max-w-4xl mx-auto px-6 md:px-8">
         <FadeIn>
-          <p className="text-brand-gold leading-relaxed text-base md:text-lg max-w-2xl">
+          <p className="text-brand-gold leading-relaxed italic font-serif text-base md:text-lg max-w-2xl">
             {behindTheMusic.intro}
           </p>
         </FadeIn>

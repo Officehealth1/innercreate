@@ -2,6 +2,7 @@ import Image from "next/image";
 import { siteContent } from "@/content/site";
 import SectionHeading from "@/components/ui/SectionHeading";
 import FadeIn from "@/components/ui/FadeIn";
+import Parallax from "@/components/ui/Parallax";
 
 export default function OriginStory() {
   const { origin } = siteContent;
@@ -28,16 +29,18 @@ export default function OriginStory() {
         </div>
 
         <FadeIn delay={0.4} className="mt-10">
-          <div className="relative aspect-[2707/842] w-full rounded-sm overflow-hidden bg-brand-dark-deep">
-            <Image
-              src={origin.image.src}
-              alt={origin.image.alt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 896px"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/30 to-transparent pointer-events-none" />
-          </div>
+          <Parallax speed={-0.08}>
+            <div className="relative aspect-[2707/842] w-full rounded-sm overflow-hidden bg-brand-dark-deep group">
+              <Image
+                src={origin.image.src}
+                alt={origin.image.alt}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                sizes="(max-width: 768px) 100vw, 896px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/30 to-transparent pointer-events-none" />
+            </div>
+          </Parallax>
         </FadeIn>
       </div>
     </section>
