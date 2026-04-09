@@ -16,11 +16,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Florence D'Haemer — French Singer-Songwriter | Original Music & Stories",
+  title: "Florence D'haemer — French Singer-Songwriter | Original Music & Stories",
   description:
-    "Discover Florence D'Haemer, a French singer-songwriter crafting intimate acoustic songs in French and English. Listen to Amours, Sur Le Port, Océan and more. Watch live sessions and behind-the-scenes stories.",
+    "Discover Florence D'haemer, a French singer-songwriter crafting intimate acoustic songs in French and English. Listen to Amours, Sur Le Port, Océan and more. Watch live sessions and behind-the-scenes stories.",
   keywords: [
-    "Florence D'Haemer",
+    "Florence D'haemer",
     "Florence Dhaemer",
     "French singer-songwriter",
     "chanteuse française",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     canonical: "https://innercreate.com",
   },
   openGraph: {
-    title: "Florence D'Haemer — French Singer-Songwriter",
+    title: "Florence D'haemer — French Singer-Songwriter",
     description:
       "Intimate acoustic songs in French and English. Listen to original music, watch live sessions, and discover the stories behind every song.",
     url: "https://innercreate.com",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Florence D'Haemer — French Singer-Songwriter",
+    title: "Florence D'haemer — French Singer-Songwriter",
     description:
       "Intimate acoustic songs in French and English. Listen now on innercreate.com",
   },
@@ -72,7 +72,7 @@ const jsonLd = {
     {
       "@type": "MusicGroup",
       "@id": "https://innercreate.com/#artist",
-      name: "Florence D'Haemer",
+      name: "Florence D'haemer",
       url: "https://innercreate.com",
       description:
         "French singer-songwriter crafting intimate acoustic songs in French and English. Music born from real moments — quiet, honest, and deeply personal.",
@@ -125,7 +125,7 @@ const jsonLd = {
       "@id": "https://innercreate.com/#website",
       url: "https://innercreate.com",
       name: "innercreate",
-      description: "The official home of Florence D'Haemer's music and stories",
+      description: "The official home of Florence D'haemer's music and stories",
       publisher: { "@id": "https://innercreate.com/#artist" },
     },
   ],

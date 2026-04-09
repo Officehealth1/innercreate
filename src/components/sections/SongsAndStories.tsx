@@ -23,7 +23,7 @@ export default function SongsAndStories() {
         <FadeIn>
           <SectionLabel>The Collection</SectionLabel>
           <SectionHeading>
-            <span id="collection-heading">Songs &amp; Stories</span>
+            <span id="collection-heading">Songs</span>
           </SectionHeading>
         </FadeIn>
 

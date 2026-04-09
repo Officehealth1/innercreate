@@ -1,7 +1,5 @@
 import { siteContent } from "@/content/site";
 import { getLatestVideos } from "@/lib/youtube";
-import SectionLabel from "@/components/ui/SectionLabel";
-import SectionHeading from "@/components/ui/SectionHeading";
 import FadeIn from "@/components/ui/FadeIn";
 import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
 import TiltCard from "@/components/ui/TiltCard";
@@ -13,16 +11,12 @@ export default async function BehindTheMusic() {
 
   return (
     <section
-      aria-labelledby="behind-heading"
+      aria-label="Behind the Music"
       className="py-24 md:py-32 bg-brand-dark"
     >
       <div className="max-w-4xl mx-auto px-6 md:px-8">
         <FadeIn>
-          <SectionLabel>{behindTheMusic.label}</SectionLabel>
-          <SectionHeading>
-            <span id="behind-heading">{behindTheMusic.heading}</span>
-          </SectionHeading>
-          <p className="mt-4 text-brand-gold leading-relaxed text-base md:text-lg max-w-2xl">
+          <p className="text-brand-gold leading-relaxed text-base md:text-lg max-w-2xl">
             {behindTheMusic.intro}
           </p>
         </FadeIn>

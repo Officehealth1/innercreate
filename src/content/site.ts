@@ -1,7 +1,7 @@
 export const siteContent = {
   hero: {
     descriptor: "Singer-Songwriter",
-    name: "Florence D'Haemer",
+    name: "Florence D'haemer",
     quote:
       "\u201cMusic is the language we use to bring light into the world.\u201d",
     cta: { label: "Listen Now", href: "#now-playing" },
@@ -9,11 +9,11 @@ export const siteContent = {
 
   origin: {
     label: "Chapter One",
-    heading: "Where It All Started",
+    heading: "About my music",
     body: `Since a young age, I\u2019ve played the piano and for a long time was drawn to writing and singing my own music. It\u2019s an expression of life and I allow it to flow through me and into the world.`,
     image: {
-      src: "/images/florence-origin.jpg",
-      alt: "Florence D'Haemer in the studio, bathed in warm light",
+      src: "/images/florence-music.png",
+      alt: "Florence D'haemer playing guitar and singing",
     },
   },
 

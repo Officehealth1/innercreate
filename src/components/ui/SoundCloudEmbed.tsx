@@ -43,7 +43,7 @@ export default function SoundCloudEmbed({ trackUrl, title }: SoundCloudEmbedProp
       frameBorder="0"
       allow="autoplay"
       loading="lazy"
-      title={`Listen to ${title} by Florence D'Haemer on SoundCloud`}
+      title={`Listen to ${title} by Florence D'haemer on SoundCloud`}
       className="rounded-lg"
     />
   );

@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Florence D'Haemer — French Singer-Songwriter | innercreate";
+  "Florence D'haemer — French Singer-Songwriter | innercreate";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -41,7 +41,7 @@ export default function Image() {
             display: "flex",
           }}
         >
-          Florence D&apos;Haemer
+          Florence D&apos;haemer
         </div>
         {/* Descriptor */}
         <div
