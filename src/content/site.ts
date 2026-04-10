@@ -27,7 +27,7 @@ export const siteContent = {
     label: "Stay Close",
     heading: "Join the Journey",
     body: "Get a note from Florence when new music drops. No spam, just songs and stories.",
-    pressEmail: "press@innercreate.com",
+    pressEmail: "florence@innercreate.com",
   },
 
   socials: {
