@@ -1,9 +1,15 @@
-import { videos as staticVideos } from "@/content/videos";
+import { videos as staticVideos, shorts as staticShorts } from "@/content/videos";
 
 export interface YouTubeVideo {
   id: string;
   title: string;
   context: string;
+}
+
+export interface YouTubeShort {
+  id: string;
+  title: string;
+  caption: string;
 }
 
 /**
@@ -16,5 +22,18 @@ export async function getLatestVideos(
     id: v.id,
     title: v.title,
     context: v.context,
+  }));
+}
+
+/**
+ * Return the curated shorts list.
+ */
+export async function getShorts(
+  count = 2
+): Promise<YouTubeShort[]> {
+  return staticShorts.slice(0, count).map((s) => ({
+    id: s.id,
+    title: s.title,
+    caption: s.caption,
   }));
 }
