@@ -1,6 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 
 const BREVO_CONTACTS_URL = "https://api.brevo.com/v3/contacts";
+const BREVO_SMTP_URL = "https://api.brevo.com/v3/smtp/email";
+const OWNER_EMAIL = "florence@innercreate.com";
 
 function isValidEmail(value: unknown): value is string {
   if (typeof value !== "string") return false;
@@ -9,15 +11,41 @@ function isValidEmail(value: unknown): value is string {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
 }
 
+async function notifyOwner(subscriberEmail: string, apiKey: string) {
+  try {
+    const res = await fetch(BREVO_SMTP_URL, {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+        "api-key": apiKey,
+      },
+      body: JSON.stringify({
+        sender: { name: "Innercreate", email: OWNER_EMAIL },
+        to: [{ email: OWNER_EMAIL, name: "Florence" }],
+        replyTo: { email: subscriberEmail },
+        subject: `New subscriber — ${subscriberEmail}`,
+        htmlContent: `<div style="font-family:-apple-system,system-ui,sans-serif;max-width:480px;color:#1a1612;line-height:1.5"><p style="font-size:16px;margin:0 0 12px">Someone just joined your newsletter on innercreate.com.</p><p style="font-size:18px;font-weight:600;margin:0 0 16px">${subscriberEmail}</p><p style="font-size:13px;color:#666;margin:0">They've been added to your <strong>innercreate-newsletter</strong> list in Brevo. Reply to this email to write back to them directly.</p></div>`,
+        textContent: `Someone just joined your newsletter on innercreate.com:\n\n${subscriberEmail}\n\nThey've been added to your innercreate-newsletter list in Brevo. Reply to this email to write back to them directly.`,
+      }),
+    });
+    if (!res.ok) {
+      const txt = await res.text();
+      console.error(
+        `[Newsletter] Notification email failed ${res.status}: ${txt}`
+      );
+    }
+  } catch (err) {
+    console.error("[Newsletter] Notification email error:", err);
+  }
+}
+
 export async function POST(request: Request) {
   let email: unknown;
   try {
     ({ email } = await request.json());
   } catch {
-    return NextResponse.json(
-      { error: "Invalid request." },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
   if (!isValidEmail(email)) {
@@ -67,7 +95,13 @@ export async function POST(request: Request) {
   }
 
   // 201: new contact created. 204: existing contact updated / added to list.
-  if (brevoRes.status === 201 || brevoRes.status === 204) {
+  if (brevoRes.status === 201) {
+    // Truly new subscriber — fire owner notification after response is sent.
+    after(() => notifyOwner(trimmed, apiKey));
+    return NextResponse.json({ success: true });
+  }
+
+  if (brevoRes.status === 204) {
     return NextResponse.json({ success: true });
   }
 
@@ -79,7 +113,6 @@ export async function POST(request: Request) {
   }
 
   if (brevoRes.status === 400 && body.code === "duplicate_parameter") {
-    // Already on the list — surface as success so the UX is friendly.
     return NextResponse.json({ success: true, alreadySubscribed: true });
   }
 
