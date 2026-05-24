@@ -24,11 +24,11 @@ const WELCOME_HTML = `<!doctype html>
 <tr><td align="center" style="padding:56px 24px;">
 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="520" style="max-width:520px;width:100%;">
 <tr><td style="padding:0 8px;">
-<p style="margin:0 0 28px;font-size:26px;font-weight:400;color:#1a1612;letter-spacing:0.01em;line-height:1.3;">You&rsquo;re in.</p>
-<p style="margin:0 0 20px;font-size:17px;line-height:1.7;color:#3a342d;">When there&rsquo;s new music &mdash; or a song-behind-the-song worth telling &mdash; this is where you&rsquo;ll hear it first. No noise. No schedule. Just notes from the work as it happens.</p>
-<p style="margin:0 0 36px;font-size:17px;line-height:1.7;color:#3a342d;">If you ever want to write back, this address goes straight to me. I&rsquo;d love to hear what brought you here.</p>
-<p style="margin:0 0 4px;font-size:17px;font-style:italic;color:#1a1612;">&mdash; Florence</p>
-<p style="margin:0;font-size:13px;letter-spacing:0.06em;"><a href="https://innercreate.com" style="color:#c4956a;text-decoration:none;">innercreate.com</a></p>
+<p style="margin:0 0 28px;font-size:24px;font-weight:400;color:#1a1612;letter-spacing:0.01em;line-height:1.35;">Thank you for being here.</p>
+<p style="margin:0 0 20px;font-size:17px;line-height:1.7;color:#3a342d;">I&rsquo;ll write to you once a month &mdash; songs, news, a little of what&rsquo;s on my mind.</p>
+<p style="margin:0 0 36px;font-size:17px;line-height:1.7;color:#3a342d;">No noise, I promise.</p>
+<p style="margin:0 0 4px;font-size:17px;font-style:italic;color:#1a1612;line-height:1.5;">Love,<br>Florence x</p>
+<p style="margin:24px 0 0;font-size:13px;letter-spacing:0.06em;"><a href="https://innercreate.com" style="color:#c4956a;text-decoration:none;">innercreate.com</a></p>
 </td></tr>
 </table>
 </td></tr>
@@ -36,13 +36,15 @@ const WELCOME_HTML = `<!doctype html>
 </body>
 </html>`;
 
-const WELCOME_TEXT = `You're in.
+const WELCOME_TEXT = `Thank you for being here.
 
-When there's new music — or a song-behind-the-song worth telling — this is where you'll hear it first. No noise. No schedule. Just notes from the work as it happens.
+I'll write to you once a month — songs, news, a little of what's on my mind.
 
-If you ever want to write back, this address goes straight to me. I'd love to hear what brought you here.
+No noise, I promise.
 
-— Florence
+Love,
+Florence x
+
 innercreate.com`;
 
 function isValidEmail(value: unknown): value is string {
