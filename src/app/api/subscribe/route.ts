@@ -1,4 +1,4 @@
-import { NextResponse, after } from "next/server";
+import { NextResponse } from "next/server";
 
 const BREVO_CONTACTS_URL = "https://api.brevo.com/v3/contacts";
 const BREVO_SMTP_URL = "https://api.brevo.com/v3/smtp/email";
@@ -167,13 +167,15 @@ export async function POST(request: Request) {
   }
 
   // 201: new contact created — send welcome + owner notification.
+  // Awaited (not deferred via after()) so the sends reliably run on
+  // serverless platforms that freeze the function after the response.
+  // Both helpers swallow their own errors, so a mail failure never
+  // blocks the success response — the contact is already saved.
   if (brevoRes.status === 201) {
-    after(() =>
-      Promise.allSettled([
-        sendWelcomeEmail(trimmed, apiKey),
-        notifyOwner(trimmed, apiKey),
-      ])
-    );
+    await Promise.allSettled([
+      sendWelcomeEmail(trimmed, apiKey),
+      notifyOwner(trimmed, apiKey),
+    ]);
     return NextResponse.json({ success: true });
   }
 
