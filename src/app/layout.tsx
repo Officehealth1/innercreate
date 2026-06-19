@@ -18,7 +18,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Florence D'haemer — French Singer-Songwriter | Original Music & Stories",
   description:
-    "Discover Florence D'haemer, a French singer-songwriter crafting intimate acoustic songs in French and English. Listen to Amours, Sur Le Port, Océan and more. Watch live sessions and behind-the-scenes stories.",
+    "Florence D'haemer is a French singer-songwriter crafting intimate acoustic songs in French and English. Listen to her single Woman, plus Amours and Océan, and watch her live sessions.",
   keywords: [
     "Florence D'haemer",
     "Florence Dhaemer",
@@ -26,6 +26,8 @@ export const metadata: Metadata = {
     "chanteuse française",
     "original music",
     "acoustic songs",
+    "Woman",
+    "Woman Florence D'haemer",
     "Amours",
     "Sur Le Port",
     "Réfugiés",
@@ -41,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Florence D'haemer — French Singer-Songwriter",
     description:
-      "Intimate acoustic songs in French and English. Listen to original music, watch live sessions, and discover the stories behind every song.",
+      "Intimate acoustic songs in French and English. Listen to the new single Woman, watch live sessions, and discover the stories behind every song.",
     url: "https://innercreate.com",
     siteName: "innercreate",
     locale: "en_US",
@@ -51,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Florence D'haemer — French Singer-Songwriter",
     description:
-      "Intimate acoustic songs in French and English. Listen now on innercreate.com",
+      "New single Woman out now — intimate acoustic songs in French and English. Listen on innercreate.com",
   },
   robots: {
     index: true,
@@ -83,6 +85,13 @@ const jsonLd = {
         "https://instagram.com/florencedhaemer",
       ],
       track: [
+        {
+          "@type": "MusicRecording",
+          name: "Woman",
+          url: "https://soundcloud.com/florencedhaemer/woman",
+          duration: "PT2M38S",
+          inLanguage: "en",
+        },
         {
           "@type": "MusicRecording",
           name: "Amours",
