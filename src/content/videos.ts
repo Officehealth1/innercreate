@@ -12,10 +12,10 @@ export interface Short {
 
 export const videos: Video[] = [
   {
-    id: "g1EqOBpu2mM",
-    title: "Grow",
+    id: "kJzyXmh48Xw",
+    title: "Woman",
     context:
-      "There’s a bridge between\nLife here\nAnd life up there\nMake this connection grow\nAnd become your true self",
+      "What is it to be a woman?\nWhen I resist her, I lose him\nWhen I trust him, I find her again",
   },
   {
     id: "L9MWpcBmYtA",
@@ -26,6 +26,16 @@ export const videos: Video[] = [
 ];
 
 export const shorts: Short[] = [
+  {
+    id: "B98JPGsCpEA",
+    title: "Back to you",
+    caption: "",
+  },
+  {
+    id: "i4DUNR9Ch5U",
+    title: "Shooting star",
+    caption: "",
+  },
   {
     id: "4oXO60r2rz4",
     title: "Beyond",

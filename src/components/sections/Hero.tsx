@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <header className="relative min-h-screen flex items-center justify-center bg-brand-dark overflow-hidden">
       {/* Background video — muted, autoplay, looped */}
-      <HeroVideo videoId="g1EqOBpu2mM" />
+      <HeroVideo videoId="kJzyXmh48Xw" />
 
       {/* Warm floating particles — dust in studio light */}
       <FloatingParticles count={25} />

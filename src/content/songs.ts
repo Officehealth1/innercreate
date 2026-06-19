@@ -5,10 +5,22 @@ export interface Song {
   teaser: string;
   story: string;
   soundcloudUrl: string;
+  streamingUrl?: string;
   featured?: boolean;
 }
 
 export const songs: Song[] = [
+  {
+    id: "woman",
+    title: "Woman",
+    duration: "",
+    teaser: "",
+    story:
+      "What is it to be a woman?\nWhen I resist her, I lose him\nWhen I trust him, I find her again",
+    soundcloudUrl: "https://soundcloud.com/florencedhaemer/woman",
+    streamingUrl: "https://distrokid.com/hyperfollow/florencedhaemer/woman",
+    featured: true,
+  },
   {
     id: "amours",
     title: "Amours",
@@ -17,7 +29,6 @@ export const songs: Song[] = [
     story:
       "The love from the heart guided by\nthe love from the soul\nputs everything at the right place and\nbrings light.\nYou will find everything you need.",
     soundcloudUrl: "https://soundcloud.com/florencedhaemer/amours",
-    featured: true,
   },
   {
     id: "sur-le-port",

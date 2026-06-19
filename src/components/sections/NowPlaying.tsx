@@ -27,15 +27,27 @@ export default function NowPlaying() {
           >
             {featured.title}
           </h2>
-          <p className="mt-4 text-brand-gold leading-relaxed italic font-serif text-base md:text-lg max-w-lg mx-auto whitespace-pre-line">
-            {featured.story}
-          </p>
+          {featured.story && (
+            <p className="mt-4 text-brand-gold leading-relaxed italic font-serif text-base md:text-lg max-w-lg mx-auto whitespace-pre-line">
+              {featured.story}
+            </p>
+          )}
           <div className="mt-8 glow-container">
             <SoundCloudEmbed
               trackUrl={featured.soundcloudUrl}
               title={featured.title}
             />
           </div>
+          {featured.streamingUrl && (
+            <a
+              href={featured.streamingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 mt-6 text-sm tracking-wide text-brand-gold underline underline-offset-4 decoration-brand-amber/40 transition-colors hover:text-brand-amber hover:decoration-brand-amber"
+            >
+              Listen {featured.title} on Spotify
+            </a>
+          )}
         </FadeIn>
       </div>
     </section>

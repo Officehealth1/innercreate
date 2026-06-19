@@ -9,7 +9,7 @@ export default async function BehindTheMusic() {
   const { behindTheMusic } = siteContent;
   const [videos, shorts] = await Promise.all([
     getLatestVideos(2),
-    getShorts(2),
+    getShorts(4),
   ]);
 
   return (
@@ -36,9 +36,11 @@ export default async function BehindTheMusic() {
                 <h3 className="mt-3 font-serif text-base text-brand-cream text-center group-hover:text-brand-amber transition-colors duration-300">
                   {short.title}
                 </h3>
-                <p className="mt-1 text-xs italic font-serif text-brand-gold text-center leading-snug">
-                  {short.caption}
-                </p>
+                {short.caption && (
+                  <p className="mt-1 text-xs italic font-serif text-brand-gold text-center leading-snug">
+                    {short.caption}
+                  </p>
+                )}
               </TiltCard>
             </FadeIn>
           ))}

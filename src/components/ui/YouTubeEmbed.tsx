@@ -18,6 +18,16 @@ export default function YouTubeEmbed({
   const isShort = aspect === "short";
   const aspectClass = isShort ? "aspect-[9/16]" : "aspect-video";
 
+  // Pick the thumbnail that matches the frame's aspect so it fills cleanly
+  // instead of cropping the default 4:3 hqdefault.jpg:
+  //  - Shorts (9:16): oardefault.jpg is YouTube's original vertical frame
+  //  - Videos (16:9): maxresdefault.jpg is the full-bleed widescreen frame
+  // Fall back to the always-present hqdefault.jpg if a variant is missing.
+  const preferredThumb = `https://i.ytimg.com/vi/${videoId}/${
+    isShort ? "oardefault" : "maxresdefault"
+  }.jpg`;
+  const [thumb, setThumb] = useState(preferredThumb);
+
   if (playing) {
     return (
       <div className={`relative w-full ${aspectClass} rounded-md overflow-hidden`}>
@@ -42,7 +52,10 @@ export default function YouTubeEmbed({
       aria-label={`Play ${title}`}
     >
       <Image
-        src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
+        src={thumb}
+        onError={() =>
+          setThumb(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`)
+        }
         alt={`Thumbnail for ${title}`}
         fill
         className="object-cover object-center transition-transform duration-500 group-hover:scale-105"

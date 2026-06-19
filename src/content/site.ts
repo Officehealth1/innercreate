@@ -20,7 +20,7 @@ export const siteContent = {
   behindTheMusic: {
     label: "Chapter Two",
     heading: "Behind the Music",
-    intro: `Florence\u2019s YouTube channel is where the songs come alive beyond the audio. Stripped-back live sessions filmed in real spaces. Honest conversations about the creative process\u2014the doubt, the breakthroughs, the 3 AM voice memos that became real songs. It\u2019s not polished content for content\u2019s sake. It\u2019s a window into what it actually looks like to make music from the inside out.`,
+    intro: `\u00ab When inspiration comes, at dawn or midnight, take it as a divine sign to transform your life \u00bb`,
   },
 
   stayClose: {
