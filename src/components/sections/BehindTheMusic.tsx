@@ -24,7 +24,23 @@ export default async function BehindTheMusic() {
           </p>
         </FadeIn>
 
-        <div className="mt-12 grid grid-cols-2 gap-4 md:gap-6 max-w-sm md:max-w-md mx-auto">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {videos.map((video, i) => (
+            <FadeIn key={video.id} delay={i * 0.12}>
+              <TiltCard className="group">
+                <YouTubeEmbed videoId={video.id} title={video.title} />
+                <h3 className="mt-3 font-serif text-lg text-brand-cream group-hover:text-brand-amber transition-colors duration-300">
+                  {video.title}
+                </h3>
+                <div className="mt-2 h-5">
+                  <CyclingText text={video.context} className="text-sm" />
+                </div>
+              </TiltCard>
+            </FadeIn>
+          ))}
+        </div>
+
+        <div className="mt-16 grid grid-cols-2 gap-4 md:gap-6 max-w-sm md:max-w-md mx-auto">
           {shorts.map((short, i) => (
             <FadeIn key={short.id} delay={i * 0.12}>
               <TiltCard className="group">
@@ -41,22 +57,6 @@ export default async function BehindTheMusic() {
                     {short.caption}
                   </p>
                 )}
-              </TiltCard>
-            </FadeIn>
-          ))}
-        </div>
-
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {videos.map((video, i) => (
-            <FadeIn key={video.id} delay={i * 0.12}>
-              <TiltCard className="group">
-                <YouTubeEmbed videoId={video.id} title={video.title} />
-                <h3 className="mt-3 font-serif text-lg text-brand-cream group-hover:text-brand-amber transition-colors duration-300">
-                  {video.title}
-                </h3>
-                <div className="mt-2 h-5">
-                  <CyclingText text={video.context} className="text-sm" />
-                </div>
               </TiltCard>
             </FadeIn>
           ))}

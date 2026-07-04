@@ -16,16 +16,17 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Florence D'haemer — French Singer-Songwriter | Original Music & Stories",
+  title: "Florence D'haemer — Singer-Songwriter",
   description:
-    "Florence D'haemer is a French singer-songwriter crafting intimate acoustic songs in French and English. Listen to her single Woman, plus Amours and Océan, and watch her live sessions.",
+    "Florence D'haemer is a singer-songwriter creating acoustic, spiritual music — original songs for voice and piano. Listen to her single Woman on Spotify, plus Amours and Océan.",
   keywords: [
     "Florence D'haemer",
     "Florence Dhaemer",
-    "French singer-songwriter",
-    "chanteuse française",
-    "original music",
-    "acoustic songs",
+    "singer-songwriter",
+    "acoustic",
+    "spiritual music",
+    "original songs",
+    "voice and piano",
     "Woman",
     "Woman Florence D'haemer",
     "Amours",
@@ -33,17 +34,15 @@ export const metadata: Metadata = {
     "Réfugiés",
     "Océan",
     "innercreate",
-    "live sessions",
-    "indie folk",
   ],
   metadataBase: new URL("https://innercreate.com"),
   alternates: {
     canonical: "https://innercreate.com",
   },
   openGraph: {
-    title: "Florence D'haemer — French Singer-Songwriter",
+    title: "Florence D'haemer — Singer-Songwriter",
     description:
-      "Intimate acoustic songs in French and English. Listen to the new single Woman, watch live sessions, and discover the stories behind every song.",
+      "Acoustic, spiritual music — original songs for voice and piano. Listen to the new single Woman on Spotify and discover the stories behind every song.",
     url: "https://innercreate.com",
     siteName: "innercreate",
     locale: "en_US",
@@ -51,9 +50,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Florence D'haemer — French Singer-Songwriter",
+    title: "Florence D'haemer — Singer-Songwriter",
     description:
-      "New single Woman out now — intimate acoustic songs in French and English. Listen on innercreate.com",
+      "New single Woman out now on Spotify — acoustic, spiritual music for voice and piano. Listen on innercreate.com",
   },
   robots: {
     index: true,
@@ -77,9 +76,10 @@ const jsonLd = {
       name: "Florence D'haemer",
       url: "https://innercreate.com",
       description:
-        "French singer-songwriter crafting intimate acoustic songs in French and English. Music born from real moments — quiet, honest, and deeply personal.",
-      genre: ["Singer-Songwriter", "Indie Folk", "Chanson Française"],
+        "Singer-songwriter creating acoustic, spiritual music — original songs for voice and piano. Music born from real moments — quiet, honest, and deeply personal.",
+      genre: ["Singer-Songwriter", "Acoustic", "Spiritual Music"],
       sameAs: [
+        "https://open.spotify.com/artist/3PdeGr2O0C0LnUnShqEfxp",
         "https://www.youtube.com/@florencedhaemer",
         "https://soundcloud.com/florencedhaemer",
         "https://instagram.com/florencedhaemer",
@@ -88,7 +88,7 @@ const jsonLd = {
         {
           "@type": "MusicRecording",
           name: "Woman",
-          url: "https://soundcloud.com/florencedhaemer/woman",
+          url: "https://open.spotify.com/album/1BQLzz3tXIPd5Ni2RI2qEj",
           duration: "PT2M38S",
           inLanguage: "en",
         },

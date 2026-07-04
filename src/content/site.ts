@@ -31,6 +31,8 @@ export const siteContent = {
   },
 
   socials: {
+    spotify:
+      "https://open.spotify.com/artist/3PdeGr2O0C0LnUnShqEfxp?si=4-oPhIUYTj-Gvng1D5-nVg",
     youtube: "https://www.youtube.com/@florencedhaemer",
     soundcloud: "https://soundcloud.com/florencedhaemer",
     instagram: "https://instagram.com/florencedhaemer",

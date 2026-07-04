@@ -1,7 +1,7 @@
 import { songs } from "@/content/songs";
 import SectionLabel from "@/components/ui/SectionLabel";
 import FadeIn from "@/components/ui/FadeIn";
-import SoundCloudEmbed from "@/components/ui/SoundCloudEmbed";
+import Button from "@/components/ui/Button";
 import SoundWave from "@/components/ui/SoundWave";
 
 export default function NowPlaying() {
@@ -32,12 +32,17 @@ export default function NowPlaying() {
               {featured.story}
             </p>
           )}
-          <div className="mt-8 glow-container">
-            <SoundCloudEmbed
-              trackUrl={featured.soundcloudUrl}
-              title={featured.title}
-            />
-          </div>
+          {featured.spotifyUrl && (
+            <div className="mt-10">
+              <Button
+                href={featured.spotifyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Listen on Spotify
+              </Button>
+            </div>
+          )}
           {featured.streamingUrl && (
             <a
               href={featured.streamingUrl}
@@ -45,7 +50,7 @@ export default function NowPlaying() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 mt-6 text-sm tracking-wide text-brand-gold underline underline-offset-4 decoration-brand-amber/40 transition-colors hover:text-brand-amber hover:decoration-brand-amber"
             >
-              Listen {featured.title} on Spotify
+              Listen on all platforms
             </a>
           )}
         </FadeIn>

@@ -5,6 +5,7 @@ export interface Song {
   teaser: string;
   story: string;
   soundcloudUrl: string;
+  spotifyUrl?: string;
   streamingUrl?: string;
   featured?: boolean;
 }
@@ -18,6 +19,8 @@ export const songs: Song[] = [
     story:
       "What is it to be a woman?\nWhen I resist her, I lose him\nWhen I trust him, I find her again",
     soundcloudUrl: "https://soundcloud.com/florencedhaemer/woman",
+    spotifyUrl:
+      "https://open.spotify.com/album/1BQLzz3tXIPd5Ni2RI2qEj?si=iOHerpVPSY6KzT0kTyvS1w",
     streamingUrl: "https://distrokid.com/hyperfollow/florencedhaemer/woman",
     featured: true,
   },

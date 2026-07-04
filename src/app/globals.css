@@ -193,11 +193,6 @@ body {
   50% { transform: translateY(8px); opacity: 0.8; }
 }
 
-@keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(196, 149, 106, 0.05); }
-  50% { box-shadow: 0 0 40px rgba(196, 149, 106, 0.15); }
-}
-
 @keyframes section-line-draw {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
@@ -229,11 +224,6 @@ body {
   animation-delay: 2.5s;
   opacity: 0;
   animation-fill-mode: forwards;
-}
-
-.glow-container {
-  animation: glow-pulse 4s ease-in-out infinite;
-  border-radius: 12px;
 }
 
 /* Section divider line that draws in on scroll */
@@ -282,10 +272,6 @@ body {
   .scroll-indicator {
     animation: none;
     opacity: 0.4;
-  }
-
-  .glow-container {
-    animation: none;
   }
 
   .section-divider {
