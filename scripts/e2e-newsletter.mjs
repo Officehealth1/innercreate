@@ -220,7 +220,12 @@ console.log("\nBlacklisted addresses are never re-mailed");
   // Build a throwaway blacklisted contact rather than probing one of the 15
   // real bot-run victims — if the suppression regressed, this test must not be
   // what sends mail to a stranger.
-  const blacklisted = `florencedha+blk${Date.now()}@gmail.com`;
+  //
+  // Deliberately a DIFFERENT mailbox from TEST_ADDR. Keyed on florencedha this
+  // would be the 3rd hit on that mailbox and the per-mailbox cooldown would
+  // suppress the send on its own, so the assertion below would pass without
+  // the blacklist check doing any work at all.
+  const blacklisted = `team+blk${Date.now()}@irislab.com`;
   await brevo("/contacts", {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -296,12 +301,16 @@ const confirmToken = mintToken(TEST_ADDR, 3600);
 
 console.log("\nReplay safety");
 {
-  const before = (await sentSubjects(TEST_ADDR)).filter((s) => /note from florence/i.test(s)).length;
   const r = await post("/api/subscribe/confirm", { token: confirmToken }, { ip: "203.0.113.20" });
   check("Replayed confirmation still succeeds (idempotent)", r.status === 200, `got ${r.status}`);
-  await new Promise((res) => setTimeout(res, 8000));
-  const after = (await sentSubjects(TEST_ADDR)).filter((s) => /note from florence/i.test(s)).length;
-  check("Replay sent no second welcome email", after === before, `before=${before} after=${after}`);
+
+  // Assert the absolute invariant — exactly one welcome for this address —
+  // rather than comparing against a count read before the replay. Brevo's log
+  // lags by up to a minute, so a before/after delta can read 0 then 1 purely
+  // from indexing catching up and report a phantom duplicate.
+  await new Promise((res) => setTimeout(res, 90000));
+  const welcomes = (await sentSubjects(TEST_ADDR)).filter((s) => /note from florence/i.test(s)).length;
+  check("Exactly one welcome email exists after replay", welcomes === 1, `found ${welcomes}`);
 }
 
 console.log("\nRate limiting");
