@@ -1,125 +1,94 @@
 import { NextResponse } from "next/server";
+import {
+  clientIp,
+  isValidEmail,
+  mailboxKey,
+  normalizeEmail,
+  rateLimit,
+  resolveTrustedOrigin,
+  signConfirmToken,
+} from "@/lib/newsletter";
+import { lookupContact, sendConfirmationEmail } from "@/lib/brevo";
 
-const BREVO_CONTACTS_URL = "https://api.brevo.com/v3/contacts";
-const BREVO_SMTP_URL = "https://api.brevo.com/v3/smtp/email";
+// node:crypto (HMAC token signing) requires the Node runtime.
+export const runtime = "nodejs";
 
-// Public-facing sender for all newsletter mail. Aliased in Google Workspace
-// to florence@innercreate.com so replies land in Florence's main inbox.
-const SENDER_EMAIL = "hello@innercreate.com";
-const SENDER_NAME = "Innercreate";
-// Where new-subscriber notifications are delivered.
-const OWNER_EMAIL = "florence@innercreate.com";
+/** Honeypot field name — must match the hidden input in NewsletterForm. */
+const HONEYPOT_FIELD = "company";
 
-const WELCOME_SUBJECT = "A note from Florence";
+const IP_LIMIT = 5;
+const IP_WINDOW_MS = 15 * 60 * 1000;
+const MAILBOX_LIMIT = 2;
+const MAILBOX_WINDOW_MS = 24 * 60 * 60 * 1000;
 
-const WELCOME_HTML = `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${WELCOME_SUBJECT}</title>
-</head>
-<body style="margin:0;padding:0;background-color:#faf6ef;font-family:Georgia,'Cormorant Garamond',serif;color:#1a1612;">
-<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#faf6ef;">
-<tr><td align="center" style="padding:56px 24px;">
-<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="520" style="max-width:520px;width:100%;">
-<tr><td style="padding:0 8px;">
-<p style="margin:0 0 28px;font-size:24px;font-weight:400;color:#1a1612;letter-spacing:0.01em;line-height:1.35;">Thank you for being here.</p>
-<p style="margin:0 0 20px;font-size:17px;line-height:1.7;color:#3a342d;">I&rsquo;ll write to you once a month &mdash; songs, news, a little of what&rsquo;s on my mind.</p>
-<p style="margin:0 0 36px;font-size:17px;line-height:1.7;color:#3a342d;">No noise, I promise.</p>
-<p style="margin:0 0 4px;font-size:17px;font-style:italic;color:#1a1612;line-height:1.5;">Love,<br>Florence x</p>
-<p style="margin:24px 0 0;font-size:13px;letter-spacing:0.06em;"><a href="https://innercreate.com" style="color:#c4956a;text-decoration:none;">innercreate.com</a></p>
-</td></tr>
-</table>
-</td></tr>
-</table>
-</body>
-</html>`;
+/**
+ * Backstop on the Brevo free plan's 300 sends/day. Without it a bot that
+ * rotates both IP and recipient could burn the whole daily allowance, which
+ * would silently break welcome mail and Florence's own campaigns. Leaves
+ * headroom for welcome + notification mail on top of confirmations.
+ *
+ * Raise via NEWSLETTER_DAILY_CAP if the Brevo plan is upgraded.
+ */
+const GLOBAL_DAILY_CONFIRMATIONS = (() => {
+  const raw = Number.parseInt(process.env.NEWSLETTER_DAILY_CAP ?? "", 10);
+  return Number.isFinite(raw) && raw > 0 ? raw : 120;
+})();
 
-const WELCOME_TEXT = `Thank you for being here.
-
-I'll write to you once a month — songs, news, a little of what's on my mind.
-
-No noise, I promise.
-
-Love,
-Florence x
-
-innercreate.com`;
-
-function isValidEmail(value: unknown): value is string {
-  if (typeof value !== "string") return false;
-  const trimmed = value.trim();
-  if (trimmed.length < 5 || trimmed.length > 254) return false;
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
-}
-
-async function sendWelcomeEmail(subscriberEmail: string, apiKey: string) {
-  try {
-    const res = await fetch(BREVO_SMTP_URL, {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "content-type": "application/json",
-        "api-key": apiKey,
-      },
-      body: JSON.stringify({
-        sender: { name: SENDER_NAME, email: SENDER_EMAIL },
-        to: [{ email: subscriberEmail }],
-        replyTo: { name: SENDER_NAME, email: SENDER_EMAIL },
-        subject: WELCOME_SUBJECT,
-        htmlContent: WELCOME_HTML,
-        textContent: WELCOME_TEXT,
-      }),
-    });
-    if (!res.ok) {
-      const txt = await res.text();
-      console.error(
-        `[Newsletter] Welcome email failed ${res.status}: ${txt}`
-      );
-    }
-  } catch (err) {
-    console.error("[Newsletter] Welcome email error:", err);
-  }
-}
-
-async function notifyOwner(subscriberEmail: string, apiKey: string) {
-  try {
-    const res = await fetch(BREVO_SMTP_URL, {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "content-type": "application/json",
-        "api-key": apiKey,
-      },
-      body: JSON.stringify({
-        sender: { name: SENDER_NAME, email: SENDER_EMAIL },
-        to: [{ email: OWNER_EMAIL, name: "Florence" }],
-        replyTo: { email: subscriberEmail },
-        subject: `New subscriber — ${subscriberEmail}`,
-        htmlContent: `<div style="font-family:-apple-system,system-ui,sans-serif;max-width:480px;color:#1a1612;line-height:1.5"><p style="font-size:16px;margin:0 0 12px">Someone just joined your newsletter on innercreate.com.</p><p style="font-size:18px;font-weight:600;margin:0 0 16px">${subscriberEmail}</p><p style="font-size:13px;color:#666;margin:0">They&rsquo;ve been added to your <strong>innercreate-newsletter</strong> list in Brevo and have received the welcome email. Reply to this email to write back to them directly.</p></div>`,
-        textContent: `Someone just joined your newsletter on innercreate.com:\n\n${subscriberEmail}\n\nThey've been added to your innercreate-newsletter list in Brevo and have received the welcome email. Reply to this email to write back to them directly.`,
-      }),
-    });
-    if (!res.ok) {
-      const txt = await res.text();
-      console.error(
-        `[Newsletter] Notification email failed ${res.status}: ${txt}`
-      );
-    }
-  } catch (err) {
-    console.error("[Newsletter] Notification email error:", err);
-  }
+/**
+ * Uniform success response.
+ *
+ * Returned whether the address is new, already subscribed, or a honeypot hit,
+ * so the endpoint can't be used to enumerate who is on the list — or to work
+ * out which submissions were silently dropped.
+ */
+function accepted() {
+  return NextResponse.json({ success: true });
 }
 
 export async function POST(request: Request) {
-  let email: unknown;
+  const origin = resolveTrustedOrigin(request);
+  if (!origin) {
+    return NextResponse.json({ error: "Forbidden." }, { status: 403 });
+  }
+
+  // Rate limit before anything expensive, so malformed floods are capped too.
+  // A null IP means the platform header was missing; skip rather than bucket
+  // every such request together, which would rate-limit the whole site at once.
+  const ip = clientIp(request);
+  if (ip) {
+    const ipLimit = rateLimit(`ip:${ip}`, IP_LIMIT, IP_WINDOW_MS);
+    if (!ipLimit.allowed) {
+      return NextResponse.json(
+        { error: "Too many attempts. Please try again later." },
+        {
+          status: 429,
+          headers: { "Retry-After": String(ipLimit.retryAfterSeconds) },
+        }
+      );
+    }
+  } else {
+    console.warn("[Newsletter] No client IP header; per-IP limit skipped");
+  }
+
+  let payload: Record<string, unknown>;
   try {
-    ({ email } = await request.json());
+    payload = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
+  if (typeof payload !== "object" || payload === null) {
+    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+  }
 
+  // Honeypot: invisible to humans, irresistible to form-filling bots. Answer
+  // exactly as we would a real signup so the bot has no failure signal.
+  const honeypot = payload[HONEYPOT_FIELD];
+  if (typeof honeypot === "string" && honeypot.trim() !== "") {
+    console.warn(`[Newsletter] Honeypot triggered from ${ip}`);
+    return accepted();
+  }
+
+  const { email } = payload;
   if (!isValidEmail(email)) {
     return NextResponse.json(
       { error: "A valid email address is required." },
@@ -127,13 +96,35 @@ export async function POST(request: Request) {
     );
   }
 
+  const address = normalizeEmail(email);
+  if (!isValidEmail(address)) {
+    return NextResponse.json(
+      { error: "A valid email address is required." },
+      { status: 400 }
+    );
+  }
+
+  // Per-mailbox cap, keyed on the real inbox behind dots and +tags. Stops one
+  // address being mail-bombed through rotating aliases or rotating IPs.
+  const mailboxLimit = rateLimit(
+    `mailbox:${mailboxKey(address)}`,
+    MAILBOX_LIMIT,
+    MAILBOX_WINDOW_MS
+  );
+  if (!mailboxLimit.allowed) {
+    // Uniform response: revealing the cap would confirm the address exists.
+    console.warn("[Newsletter] Mailbox cooldown hit");
+    return accepted();
+  }
+
   const apiKey = process.env.BREVO_API_KEY;
   const listIdRaw = process.env.BREVO_LIST_ID;
   const listId = listIdRaw ? Number.parseInt(listIdRaw, 10) : NaN;
+  const secret = process.env.NEWSLETTER_SECRET;
 
-  if (!apiKey || !Number.isFinite(listId)) {
+  if (!apiKey || !Number.isFinite(listId) || !secret) {
     console.error(
-      "[Newsletter] Missing BREVO_API_KEY or BREVO_LIST_ID env vars"
+      "[Newsletter] Missing BREVO_API_KEY, BREVO_LIST_ID or NEWSLETTER_SECRET"
     );
     return NextResponse.json(
       { error: "Newsletter signup is not configured." },
@@ -141,65 +132,43 @@ export async function POST(request: Request) {
     );
   }
 
-  const trimmed = (email as string).trim().toLowerCase();
+  const state = await lookupContact(address, { apiKey, listId });
+  // Already subscribed — no second confirmation.
+  if (state === "active") return accepted();
+  // Hard-bounced or previously marked us as spam. Mailing these again is what
+  // wrecks sender reputation, and it's exactly what a bot replaying a harvested
+  // list would trigger. A genuine returning subscriber needs a manual re-add.
+  if (state === "blacklisted") {
+    console.warn("[Newsletter] Suppressed confirmation to blacklisted address");
+    return accepted();
+  }
 
-  let brevoRes: Response;
-  try {
-    brevoRes = await fetch(BREVO_CONTACTS_URL, {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "content-type": "application/json",
-        "api-key": apiKey,
-      },
-      body: JSON.stringify({
-        email: trimmed,
-        listIds: [listId],
-        updateEnabled: true,
-      }),
-    });
-  } catch (err) {
-    console.error("[Newsletter] Brevo network error:", err);
+  const globalCap = rateLimit(
+    "global:confirmations",
+    GLOBAL_DAILY_CONFIRMATIONS,
+    24 * 60 * 60 * 1000
+  );
+  if (!globalCap.allowed) {
+    // Loud: this is either a sustained attack or genuine viral traffic, and
+    // both need a human to look at the Brevo quota.
+    console.error(
+      `[Newsletter] Daily confirmation cap (${GLOBAL_DAILY_CONFIRMATIONS}) reached — suppressing sends`
+    );
+    return accepted();
+  }
+
+  const token = signConfirmToken(address, secret);
+  // `origin` came from the allowlist, so the confirmation link can never be
+  // pointed at an attacker-controlled host.
+  const confirmUrl = `${origin}/subscribe/confirm?token=${encodeURIComponent(token)}`;
+
+  const sent = await sendConfirmationEmail(address, confirmUrl, apiKey);
+  if (!sent) {
     return NextResponse.json(
       { error: "Something went wrong. Please try again." },
       { status: 502 }
     );
   }
 
-  // 201: new contact created — send welcome + owner notification.
-  // Awaited (not deferred via after()) so the sends reliably run on
-  // serverless platforms that freeze the function after the response.
-  // Both helpers swallow their own errors, so a mail failure never
-  // blocks the success response — the contact is already saved.
-  if (brevoRes.status === 201) {
-    await Promise.allSettled([
-      sendWelcomeEmail(trimmed, apiKey),
-      notifyOwner(trimmed, apiKey),
-    ]);
-    return NextResponse.json({ success: true });
-  }
-
-  // 204: existing contact updated / re-added — silently dedupe, no email.
-  if (brevoRes.status === 204) {
-    return NextResponse.json({ success: true });
-  }
-
-  let body: { code?: string; message?: string } = {};
-  try {
-    body = (await brevoRes.json()) as typeof body;
-  } catch {
-    // non-JSON body, ignore
-  }
-
-  if (brevoRes.status === 400 && body.code === "duplicate_parameter") {
-    return NextResponse.json({ success: true, alreadySubscribed: true });
-  }
-
-  console.error(
-    `[Newsletter] Brevo error ${brevoRes.status} ${body.code ?? ""}: ${body.message ?? ""}`
-  );
-  return NextResponse.json(
-    { error: "Something went wrong. Please try again." },
-    { status: 502 }
-  );
+  return accepted();
 }

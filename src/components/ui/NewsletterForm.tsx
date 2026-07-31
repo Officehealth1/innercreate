@@ -6,6 +6,9 @@ type FormState = "idle" | "loading" | "success" | "error";
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState("");
+  // Honeypot. Named plausibly so bots fill it; invisible and unreachable for
+  // humans, so any non-empty value means the submission wasn't a person.
+  const [company, setCompany] = useState("");
   const [state, setState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -24,11 +27,11 @@ export default function NewsletterForm() {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, company }),
       });
 
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "Something went wrong.");
       }
 
@@ -45,10 +48,10 @@ export default function NewsletterForm() {
     return (
       <div className="text-center py-4">
         <p className="font-serif text-xl text-brand-cream">
-          You&apos;re in. Watch your inbox.
+          Check your inbox.
         </p>
         <p className="text-sm text-brand-gold mt-2">
-          Something good is on its way.
+          Tap the link in the confirmation email and you&rsquo;re in.
         </p>
       </div>
     );
@@ -80,6 +83,29 @@ export default function NewsletterForm() {
           {state === "loading" ? "..." : "Subscribe"}
         </button>
       </div>
+
+      {/*
+        Positioned off-screen rather than display:none — bots increasingly skip
+        hidden inputs, but still fill fields that are technically in the layout.
+      */}
+      <div
+        aria-hidden="true"
+        className="absolute w-px h-px overflow-hidden -left-[9999px]"
+      >
+        <label htmlFor="newsletter-company">
+          Company (leave this field empty)
+        </label>
+        <input
+          id="newsletter-company"
+          name="company"
+          type="text"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       {state === "error" && (
         <p className="mt-2 text-sm text-red-400" role="alert" aria-live="polite">
           {errorMsg}
