@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { siteContent } from "@/content/site";
 import SectionLabel from "@/components/ui/SectionLabel";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -44,6 +45,21 @@ export default function StayClose() {
           </div>
 
           <div className="mt-16 pt-8 border-t border-white/5">
+            <div className="mb-4 flex justify-center gap-6 text-xs">
+              <Link
+                href="/privacy"
+                className="py-1 text-brand-gold hover:text-brand-amber transition-colors underline underline-offset-2"
+              >
+                Privacy
+              </Link>
+              <button
+                type="button"
+                data-consent-open
+                className="py-1 cursor-pointer text-brand-gold hover:text-brand-amber transition-colors underline underline-offset-2"
+              >
+                Cookie choices
+              </button>
+            </div>
             <p className="text-xs text-brand-gold/40">
               &copy; {new Date().getFullYear()} Florence D&apos;haemer. All rights reserved.
             </p>
