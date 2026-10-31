@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import ConsentedAnalytics from "@/components/ui/ConsentedAnalytics";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -154,10 +154,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>{children}</body>
-      {process.env.NODE_ENV === "production" && (
-        <GoogleAnalytics gaId="G-DZ5XH2LR56" />
-      )}
+      <body>
+        {children}
+        <ConsentedAnalytics />
+      </body>
     </html>
   );
 }

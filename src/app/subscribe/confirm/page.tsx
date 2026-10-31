@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: "Confirm your subscription — Innercreate",
   // Confirmation links are per-subscriber; keep them out of search results.
   robots: { index: false, follow: false },
+  // The token holds the subscriber's email; the next page must not inherit it.
+  referrer: "no-referrer",
 };
 
 export default async function ConfirmPage({

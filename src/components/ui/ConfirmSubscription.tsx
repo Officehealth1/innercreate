@@ -43,8 +43,10 @@ export default function ConfirmSubscription({ token }: { token: string }) {
           Thank you for confirming. A note from Florence is on its way to your
           inbox.
         </p>
+        {/* replace: Back must not return to the address holding the token. */}
         <Link
           href="/"
+          replace
           className="mt-8 inline-block text-xs font-semibold uppercase tracking-[0.1em] text-brand-amber hover:text-brand-cream transition-colors"
         >
           Back to innercreate.com

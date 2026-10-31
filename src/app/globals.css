@@ -56,6 +56,38 @@ body {
   top: 0;
 }
 
+/* Cookie choices bar, built by src/lib/consent-banner.js */
+.consent-bar {
+  @apply fixed inset-x-0 bottom-0 z-50 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 bg-brand-dark-deep px-6 pt-4 text-sm leading-relaxed text-brand-cream;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.consent-bar:focus {
+  outline: none;
+}
+
+.consent-bar p {
+  max-width: 65ch;
+}
+
+.consent-bar a {
+  @apply text-brand-gold underline underline-offset-2 transition-colors hover:text-brand-amber focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-amber;
+}
+
+.consent-bar-buttons {
+  @apply grid w-full grid-cols-2 gap-3 md:w-auto;
+}
+
+.consent-bar button {
+  @apply min-h-11 cursor-pointer rounded border border-brand-amber px-6 text-xs font-semibold tracking-[0.1em] text-brand-amber uppercase transition-colors hover:bg-brand-amber hover:text-brand-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-amber;
+}
+
+/* Keeps a control the keyboard lands on from hiding behind the bar. */
+html:has(.consent-bar) {
+  scroll-padding-bottom: 12rem;
+}
+
 /* Smooth accordion expand using grid rows */
 .accordion-content {
   display: grid;
