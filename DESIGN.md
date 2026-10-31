@@ -35,7 +35,8 @@ The tokens live in `src/app/globals.css` under `@theme`. Use the `brand-*` utili
 - Form buttons and inputs use `rounded`, `px-6 py-3` and the control label above.
 - A primary action is filled amber on dark text. A choice between two equal options uses two identical outline buttons
   (amber border, amber text, filling amber on hover), so neither looks like the default.
-- Every control has a visible `focus-visible` amber outline and is at least 44 px tall on a phone.
+- Every control has a visible `focus-visible` amber outline. New stand-alone controls are at least 44 px tall on a phone;
+  a link inside a sentence is exempt.
 - Footer and inline links are underlined with `underline-offset-2`.
 
 ## Rules carried from the owner

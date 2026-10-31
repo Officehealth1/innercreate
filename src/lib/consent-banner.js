@@ -11,7 +11,11 @@ export function readConsent() {
   return match ? /** @type {"granted" | "denied"} */ (match[1]) : null;
 }
 
-/** @param {() => void} listener */
+/**
+ * ponytail: this tab only. A choice made in another tab applies here at this
+ * tab's next page load; add a BroadcastChannel if that ever matters.
+ * @param {() => void} listener
+ */
 export function subscribeConsent(listener) {
   window.addEventListener(CHANGE_EVENT, listener);
   return () => window.removeEventListener(CHANGE_EVENT, listener);

@@ -46,6 +46,14 @@ async function visitor(browser, options = {}) {
     viewport: { width: 1280, height: 800 },
     ...options,
   });
+  // Netlify's toolbar sits over the bar on deploy previews. The live site has none.
+  await context.addInitScript(() => {
+    addEventListener("DOMContentLoaded", () => {
+      const style = document.createElement("style");
+      style.textContent = "[data-netlify-deploy-id]{display:none!important}";
+      document.head.append(style);
+    });
+  });
   const page = await context.newPage();
   const seen = { clarity: [], ga: [], errors: [] };
   page.on("request", (request) => {
@@ -323,6 +331,15 @@ async function layoutAndKeyboard(browser) {
   check("Tab reaches Accept and Decline first", reached.includes("Accept") && reached.includes("Decline"), reached.join(", "));
   const modal = await bar(v.page).getAttribute("aria-modal").catch(() => null);
   check("the bar is not a modal", modal === null);
+
+  const keyboard = await visitor(browser);
+  await gotoHome(keyboard.page);
+  await bar(keyboard.page).getByRole("button", { name: "Decline" }).focus();
+  await keyboard.page.keyboard.press("Enter");
+  await keyboard.page.keyboard.press("Tab");
+  const next = await keyboard.page.evaluate(() => document.activeElement?.textContent?.trim());
+  check("after answering, Tab lands on the skip link at the top of the page", next === "Skip to content", next);
+  await keyboard.context.close();
 
   const privacy = await v.page.locator("footer").getByRole("link", { name: "Privacy" }).getAttribute("href").catch(() => null);
   check("the footer links to the privacy page", privacy === "/privacy", privacy);

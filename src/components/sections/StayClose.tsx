@@ -45,17 +45,17 @@ export default function StayClose() {
           </div>
 
           <div className="mt-16 pt-8 border-t border-white/5">
-            <div className="mb-4 flex justify-center gap-6 text-xs">
+            <div className="mb-2 flex justify-center gap-6 text-xs">
               <Link
                 href="/privacy"
-                className="py-1 text-brand-gold hover:text-brand-amber transition-colors underline underline-offset-2"
+                className="inline-flex min-h-11 items-center text-brand-gold hover:text-brand-amber transition-colors underline underline-offset-2"
               >
                 Privacy
               </Link>
               <button
                 type="button"
                 data-consent-open
-                className="py-1 cursor-pointer text-brand-gold hover:text-brand-amber transition-colors underline underline-offset-2"
+                className="inline-flex min-h-11 cursor-pointer items-center text-brand-gold hover:text-brand-amber transition-colors underline underline-offset-2"
               >
                 Cookie choices
               </button>
