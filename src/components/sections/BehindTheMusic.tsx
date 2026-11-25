@@ -8,7 +8,7 @@ import CyclingText from "@/components/ui/CyclingText";
 export default async function BehindTheMusic() {
   const { behindTheMusic } = siteContent;
   const [videos, shorts] = await Promise.all([
-    getLatestVideos(2),
+    getLatestVideos(3),
     getShorts(4),
   ]);
 
