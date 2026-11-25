@@ -24,20 +24,39 @@ export default async function BehindTheMusic() {
           </p>
         </FadeIn>
 
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {videos.map((video, i) => (
-            <FadeIn key={video.id} delay={i * 0.12}>
-              <TiltCard className="group">
-                <YouTubeEmbed videoId={video.id} title={video.title} />
-                <h3 className="mt-3 font-serif text-lg text-brand-cream group-hover:text-brand-amber transition-colors duration-300">
-                  {video.title}
-                </h3>
-                <div className="mt-2 h-5">
-                  <CyclingText text={video.context} className="text-sm" />
-                </div>
-              </TiltCard>
-            </FadeIn>
-          ))}
+        {/* An odd number of videos would leave the last card alone beside an
+            empty slot, so the first one leads across both columns. */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-10">
+          {videos.map((video, i) => {
+            const lead = i === 0 && videos.length % 2 === 1;
+            return (
+              <FadeIn
+                key={video.id}
+                delay={i * 0.12}
+                className={lead ? "md:col-span-2" : ""}
+              >
+                <TiltCard className="group" maxDeg={lead ? 3 : undefined}>
+                  <YouTubeEmbed
+                    videoId={video.id}
+                    title={video.title}
+                    sizes={lead ? "(max-width: 768px) 100vw, 832px" : undefined}
+                  />
+                  <h3
+                    className={`mt-3 font-serif text-lg text-brand-cream group-hover:text-brand-amber transition-colors duration-300 ${
+                      lead ? "md:text-2xl" : ""
+                    }`}
+                  >
+                    {video.title}
+                  </h3>
+                  {video.context && (
+                    <div className="mt-2 h-5">
+                      <CyclingText text={video.context} className="text-sm" />
+                    </div>
+                  )}
+                </TiltCard>
+              </FadeIn>
+            );
+          })}
         </div>
 
         <div className="mt-16 grid grid-cols-2 gap-4 md:gap-6 max-w-sm md:max-w-md mx-auto">

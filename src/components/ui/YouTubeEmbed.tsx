@@ -7,26 +7,30 @@ interface YouTubeEmbedProps {
   videoId: string;
   title: string;
   aspect?: "video" | "short";
+  /** Image `sizes` hint, for a frame wider than one grid column. */
+  sizes?: string;
 }
 
 export default function YouTubeEmbed({
   videoId,
   title,
   aspect = "video",
+  sizes,
 }: YouTubeEmbedProps) {
   const [playing, setPlaying] = useState(false);
   const isShort = aspect === "short";
   const aspectClass = isShort ? "aspect-[9/16]" : "aspect-video";
 
-  // Pick the thumbnail that matches the frame's aspect so it fills cleanly
-  // instead of cropping the default 4:3 hqdefault.jpg:
+  // Thumbnails to try, sharpest first, so the frame fills cleanly instead of
+  // cropping the default 4:3 hqdefault.jpg:
   //  - Shorts (9:16): oardefault.jpg is YouTube's original vertical frame
-  //  - Videos (16:9): maxresdefault.jpg is the full-bleed widescreen frame
-  // Fall back to the always-present hqdefault.jpg if a variant is missing.
-  const preferredThumb = `https://i.ytimg.com/vi/${videoId}/${
-    isShort ? "oardefault" : "maxresdefault"
-  }.jpg`;
-  const [thumb, setThumb] = useState(preferredThumb);
+  //  - Videos (16:9): maxresdefault.jpg is the full-bleed widescreen frame,
+  //    sddefault.jpg the next size down when the upload has no HD thumbnail
+  // hqdefault.jpg is always present and ends both lists.
+  const thumbs = isShort
+    ? ["oardefault", "hqdefault"]
+    : ["maxresdefault", "sddefault", "hqdefault"];
+  const [thumbIndex, setThumbIndex] = useState(0);
 
   if (playing) {
     return (
@@ -52,17 +56,18 @@ export default function YouTubeEmbed({
       aria-label={`Play ${title}`}
     >
       <Image
-        src={thumb}
+        src={`https://i.ytimg.com/vi/${videoId}/${thumbs[thumbIndex]}.jpg`}
         onError={() =>
-          setThumb(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`)
+          setThumbIndex((i) => Math.min(i + 1, thumbs.length - 1))
         }
         alt={`Thumbnail for ${title}`}
         fill
         className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
         sizes={
-          isShort
+          sizes ??
+          (isShort
             ? "(max-width: 768px) 45vw, 220px"
-            : "(max-width: 768px) 100vw, 50vw"
+            : "(max-width: 768px) 100vw, 50vw")
         }
       />
       <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors flex items-center justify-center">
